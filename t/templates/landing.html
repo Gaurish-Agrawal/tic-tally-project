@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Landing Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #3321bf;
+            padding: 15px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 0 15px;
+        }
+
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            margin-top: 20px;
+            justify-content: space-between;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        h2 {
+            font-size: 20px;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            background-color: transparent;
+        }
+
+        table th, table td {
+            padding: 12px;
+            border: 1px solid #000000;
+        }
+
+        table thead {
+            background-color: #3321bf;
+            color: #ffffff;
+        }
+
+        .start-button {
+            background-color: #3321bf;
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            font-size: 25px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .start-button:hover {
+            background-color: #3321bf;
+        }
+
+        .leaderboard {
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        .welcome {
+            font-size: 18px;
+            color: white;
+        }
+
+        .logout {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .logout a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .logout a:hover {
+            text-decoration: underline;
+        }
+
+        .messages ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .messages li {
+            background: #ffc107;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
+
+        .description-container {
+            flex: 1;
+            font-size: 20px;
+          padding: 20px;
+            border-radius: 8px;
+            margin-right: 90px;
+        }
+
+        .description-container h1, .description-container h2 {
+            color: black;
+            font-weight: bold;
+        }
+
+        .description-container p {
+            color: #666;
+        }
+
+        tr:nth-child(2){background-color: rgb(247, 191, 47)}
+        tr:nth-child(3){background-color: #C0C0C0;}
+        tr:nth-child(4){background-color: #e08734;}
+
+        tr:nth-child(1){
+            background-color: #3321bf;
+            color:white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="welcome"></div>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+    <div class="container">
+
+        <div class="description-container">
+            <h1 style="font-size: 50px;">TicTally</h1>
+            <h1>Welcome, {{ username }}!</h1>
+            <p>Living with Tourette's can be challenging, but you're not alone. TicTally is a supportive and fun platform designed to help individuals with Tourette's track their progress and attempt to control facial tics.</p>
+
+            <h2>Track Your Progress</h2>
+            <p>Challenge yourself to see how long you can go without tics and compare your times with other strangers on our leaderboard. It's all about celebrating small victories and encouraging each other.</p>
+
+            <h2>Quick Reminders</h2>
+            <p>Remember, everything is anonymous. No visuals are saved. We advice against using your real name. Content is not intended as medical advice. Always consult with a qualified healthcare provider for medical advice, diagnosis, or treatment.</p>
+        </div>
+
+        <div class="leaderboard">
+            <div class="container">
+                <div class="actions start-button" style="background-color: transparent;border: 0px solid black;color:black;">
+                    
+                </div>
+                <div class="actions">
+                    <button class="start-button" onclick="start()">Start</button>
+                </div>
+            </div>
+
+            <table>
+                <tbody>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Time</th>
+                    </tr>
+                    
+
+                    {% for user in leaderboard %}
+                        <tr>
+                            <td>{{ loop.index }}
+                                {% if user.username == username %}
+                                    <span style="font-size:100%; color:white; text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;">&starf;</span>
+                                {% endif %}
+                            </td>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.time }} Seconds</td>
+                        </tr>
+                    {% endfor %}
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="messages">
+            <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    <script>
+        function start() {
+            window.location.href = '/camera';
+        }
+    </script>
+</body>
+</html>

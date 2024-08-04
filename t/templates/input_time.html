@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Input Time</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Input Time for Blink Detection</h1>
+    <form action="{{ url_for('camera') }}" method="post">
+        <label for="timeInput">Enter time (seconds):</label>
+        <input type="number" id="timeInput" name="time_seconds" min="1" required>
+        <button type="submit">Start</button>
+    </form>
+</body>
+</html>
